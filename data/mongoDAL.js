@@ -32,9 +32,31 @@ const userSchema = new mongoose.Schema({
     },
 });
 
-const User = mongoose.model('User', userSchema);
+const canvas = new mongoose.Schema({
+    pallet: String,
+    size: {
+        width: Number,
+        height: Number,
+    },
+    pixels: String,
+    created: {
+        type: Date,
+        default: Date.now,
+    },
+});
 
+const pattern = new mongoose.Schema({
+    pattern: String,
+    format: String,
+    created: {
+        type: Date,
+        default: Date.now,
+    },
+});
+
+const User = mongoose.model('User', userSchema);
 
 module.exports = {
     User: User
+
 }
