@@ -15,7 +15,8 @@ router.get('/:id', async (req, res) => {
 });
 
 router.get('/currentUser', async (req, res) => {
-    return res.json(req.session.user);
+    console.log("Sessions",req.session.user)
+    return res.json(req?.session?.user);
 });
 
 router.post("/register", async (req, res) => {
@@ -25,7 +26,6 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
     let results = await userController.login(req, res);
-    console.log(results)
     if (results?.success) {
         req.session.user = {
             id: results._id,
