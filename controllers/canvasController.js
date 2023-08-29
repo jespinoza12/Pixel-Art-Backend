@@ -53,7 +53,7 @@ exports.updateCanvas = async function (req, res) {
 
 exports.deleteCanvas = async function (req, res) {
     try {
-        const { canvasID } = req.body;
+        const canvasID = req.params.id;
         const deletedCanvas = await mongoDAL.deleteCanvas(canvasID);
         res.status(200).json(deletedCanvas);
     } catch (error) {
@@ -64,7 +64,7 @@ exports.deleteCanvas = async function (req, res) {
 
 exports.getCanvasById = async function (req, res) {
     try {
-        const { canvasID} = req.body;
+        const canvasID = req.params.id;
         const canvas = await mongoDAL.getCanvasById(canvasID);
         res.status(200).json(canvas);
     } catch (error) {

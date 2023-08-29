@@ -96,7 +96,7 @@ exports.updateUser = async function (req, res) {
 
 exports.deleteUser = async function (req, res) {
     try {
-        const {userID} = req.body;
+        const userID = req.params.id;
         const deletedUser = await mongoDAL.deleteUser(userID);
         res.status(200).json(deletedUser);
     } catch (error) {
@@ -107,7 +107,7 @@ exports.deleteUser = async function (req, res) {
 
 exports.getUserById = async function (req, res) {
     try {
-        const {userID} = req.body;
+        const userID = req.params.id;
         const user = await mongoDAL.getUserById(userID);
         res.status(200).json(user);
     } catch (error) {

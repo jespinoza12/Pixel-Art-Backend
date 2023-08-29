@@ -54,7 +54,7 @@ exports.updatePattern = async function (req, res) {
 
 exports.deletePattern = async function (req, res) {
     try {
-        const {patternID} = req.body;
+        const patternID = req.params.id;
         const deletedPattern = await mongoDAL.deletePattern(patternID);
         res.status(200).json(deletedPattern);
     } catch (error) {
