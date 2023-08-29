@@ -75,7 +75,7 @@ exports.getCanvasById = async function (req, res) {
 
 exports.getCanvasByUserId = async function (req, res) {
     try {
-        const { userID} = req.body;
+        let userID = req.params.id;
         const canvas = await mongoDAL.getCanvasByUserId(userID);
         res.status(200).json(canvas);
     } catch (error) {

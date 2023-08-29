@@ -72,10 +72,9 @@ exports.getPatternById = async function (req, res) {
         res.status(500).json({ error: 'An error occurred while getting the pattern.' });
     }
 }
-
 exports.getPatternByUserId = async function (req, res) {
     try {
-        const {userID} = req.params.id;
+        let userID = req.params.id;
         const patternByUserId = await mongoDAL.getPatternByUserId(userID);
         res.status(200).json(patternByUserId);
     } catch (error) {
