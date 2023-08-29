@@ -12,10 +12,9 @@ const patternRoutes = require('./routes/pattern');
 
 
 const app = express();
-app.use(cors())
+app.use(cors({origin: true, credentials: true}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-res.header(`Access-Control-Allow-Origin`, `*`);
 
 app.use(session({
     secret: process.env.SECRET,
