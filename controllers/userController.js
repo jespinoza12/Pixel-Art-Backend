@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 exports.register = async function (req, res) {
     try {
         const { username, email, password, passwordConfirm } = req.body;
-        const user = await mongoDAL.getUserByEmail(req.body.email);
+        const user = await mongoDAL.getUserByEmail(email);
         if (!username || !email || !password || !passwordConfirm) {
             res.status(400).json({ error: 'Please enter all required fields.' });
             return;
