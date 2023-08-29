@@ -4,14 +4,6 @@ const mongoDAL = require('../data/mongoDAL');
 exports.createCanvas = async function (req, res) {
     try {
         const { pallet, size, userId, name, pixels } = req.body;
-
-        console.log("Body",req.body)
-        console.log(pallet)
-        console.log(size.height)
-        console.log(size.width)
-        console.log(userId)
-        console.log(name)
-        console.log(pixels)
         if (pallet == null || size.width == null || size.height == null || userId == null || name == null || pixels == null) {
             res.status(400).json({ error: 'Missing required information.' });
             return;
