@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const canvasController = require('../controllers/canvasController');
 
 // Define the route for the root URL
 router.get('/canvas/:id', (req, res) => {

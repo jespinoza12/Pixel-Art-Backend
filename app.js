@@ -11,9 +11,16 @@ app.use(session({
 
 // Import routes from index.js
 const routes = require('./routes/index');
+const userRoutes = require('./routes/user');
+const canvasRoutes = require('./routes/canvas');
+const patternRoutes = require('./routes/pattern');
 
 // Use the imported routes
 app.use('/', routes);
+app.use('/u', userRoutes);
+app.use('/c', canvasRoutes);
+app.use('/p', patternRoutes);
+
 
 const PORT = 3000;
 app.listen(PORT, () => {
