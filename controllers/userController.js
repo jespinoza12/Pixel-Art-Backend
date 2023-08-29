@@ -6,15 +6,15 @@ exports.register = async function (req, res) {
         const { username, email, password, passwordConfirm } = req.body;
         const user = await mongoDAL.getUserByEmail(req.body.email);
         if (!username || !email || !password || !passwordConfirm) {
-            res.json({ error: 'Please enter all required fields.' });
+            res.status(400).json({ error: 'Please enter all required fields.' });
             return;
         } else {
             if (password !== passwordConfirm) {
-                res.json({ error: 'Passwords do not match.' });
+                res.status(400).json({ error: 'Passwords do not match.' });
                 return;
             }else {
                 if (user) {
-                    res.json({ error: 'User already Exisits.' });
+                    res.status(409).json({ error: 'User already Exisits.' });
                     return;
                 }else {
                     const hashedPassword = await bcrypt.hash(password, 10);
@@ -24,13 +24,13 @@ exports.register = async function (req, res) {
                         password: hashedPassword,
                     };
                     const createdUser = await mongoDAL.createUser(userData);
-                    res.json(createdUser);
+                    res.status(201).json(createdUser);
                 }
             }
         }
     } catch (error) {
         console.error(error);
-        res.json({ error: 'An error occurred while creating the user.' });
+        res.status(500).json({ error: 'An error occurred while creating the user.' });
     }
 };
 
@@ -43,32 +43,33 @@ exports.login = async function (req, res) {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
-            res.json({ error: 'Please enter all required fields.' });
+            res.status(400).json({ error: 'Please enter all required fields.' });
             return;
         }else {
             const user = await mongoDAL.getUserByEmail(email);
             if (user) {
                 const isPasswordCorrect = await bcrypt.compare(password, user.password);
                 if (isPasswordCorrect) {
-                    res.json(user);
+                    res.status(200).json(user);
                 } else {
-                    res.json({ error: 'Invalid email or password.' });
+                    res.status(401).json({ error: 'Invalid email or password.' });
                 }
             } else {
-                res.json({ error: 'Invalid email or password.' });
+                res.status(401).json({ error: 'Invalid email or password.' });
             }
         }
     } catch (error) {
         console.error(error);
-        res.json({ error: 'An error occurred while logging in.' });
+        res.status(500).json({ error: 'An error occurred while logging in.' });
     }
 };
 
 exports.updateUser = async function (req, res) {
     try {
+
         const { username, email, password, userID } = req.body;
         if (!username || !email || !password || !userID) {
-            res.json({ error: 'Please enter all required fields.' });
+            res.status(400).json({ error: 'Please enter all required fields.' });
             return;
         }else {
             const hashedPassword = await bcrypt.hash(password, 10);
@@ -78,11 +79,11 @@ exports.updateUser = async function (req, res) {
                 password: hashedPassword,
             };
             const updatedUser = await mongoDAL.updateUser(userID, userData);
-            res.json(updatedUser);
+            res.status(200).json(updatedUser);
         }
     } catch (error) {
         console.error(error);
-        res.json({ error: 'An error occurred while updating the user.' });
+        res.status(500).json({ error: 'An error occurred while updating the user.' });
     }
 }
 
@@ -90,10 +91,10 @@ exports.deleteUser = async function (req, res) {
     try {
         const {userID} = req.body;
         const deletedUser = await mongoDAL.deleteUser(userID);
-        res.json(deletedUser);
+        res.status(200).json(deletedUser);
     } catch (error) {
         console.error(error);
-        res.json({ error: 'An error occurred while deleting the user.' });
+        res.status(500).json({ error: 'An error occurred while deleting the user.' });
     }
 }
 
@@ -101,9 +102,9 @@ exports.getUserById = async function (req, res) {
     try {
         const {userID} = req.body;
         const user = await mongoDAL.getUserById(userID);
-        res.json(user);
+        res.status(200).json(user);
     } catch (error) {
         console.error(error);
-        res.json({ error: 'An error occurred while getting the user.' });
+        res.status(500).json({ error: 'An error occurred while getting the user.' });
     }
 }

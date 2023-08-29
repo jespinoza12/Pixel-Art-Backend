@@ -10,17 +10,17 @@ router.get('/users', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    let results = await userController.getUserById(req.params.id);
+    let results = await userController.getUserById(req.params.id, res);
     res.send(results);    
 });
 
 router.get('/currentUser', async (req, res) => {
-    res.send(req.session.user);
+    return req.session.user;
 });
 
 router.post("/register", async (req, res) => {
-    let results = await userController.register(req.body);
-    res.send(results);
+    let results = await userController.register(req, res);
+    return results;
 });
 
 router.post("/login", async (req, res) => {
@@ -38,13 +38,13 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/update/:id", async  (req, res) => {
-    let results = await userController.updateUser(req.user.id, req.body);
-    res.send(results);
+    let results = await userController.updateUser(req.user.id, req);
+    return results;
 });
 
 router.post("/delete/:id", async  (req, res) => {
     let results = await userController.deleteUser(req.params.id);
-    res.send(results);
+    return results;
 });
 
 router.post("/logout", (req, res) => {

@@ -1,6 +1,9 @@
 const express = require('express');
 const session = require('express-session');
 require('dotenv').config();
+var cors = require('cors')
+app.use(cors())
+
 
 
 // Import routes from index.js

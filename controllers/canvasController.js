@@ -5,7 +5,7 @@ exports.createCanvas = async function (req, res) {
     try {
         const { pallet, width, height, userId, name } = req.body;
         if (pallet == null || width == null || height == null || userId == null || name == null) {
-            res.json({ error: 'Missing required information.' });
+            res.status(400).json({ error: 'Missing required information.' });
             return;
         }else {
             const canvasData = {
@@ -16,11 +16,11 @@ exports.createCanvas = async function (req, res) {
                 userId: userId,
             };
             const createdCanvas = await mongoDAL.createCanvas(canvasData);
-            res.json(createdCanvas);
+            res.status(201).json(createdCanvas);
         }
     } catch (error) {
         console.error(error);
-        res.json({ error: 'An error occurred while creating the canvas.' });
+        res.status(500).json({ error: 'An error occurred while creating the canvas.' });
     }
 }
 
@@ -33,7 +33,7 @@ exports.updateCanvas = async function (req, res) {
     try {
         const { pallet, width, height, userId, canvasID } = req.body;
         if (pallet == null || width == null || height == null || userId == null || canvasID == null) {
-            res.json({ error: 'Missing required information.' });
+            res.status(400).json({ error: 'Missing required information.' });
             return;
         }else {
             const canvasData = {
@@ -43,11 +43,11 @@ exports.updateCanvas = async function (req, res) {
                 userId: userId,
             };
             const updatedCanvas = await mongoDAL.updateCanvas(canvasID, canvasData);
-            res.json(updatedCanvas);
+            res.status(200).json(updatedCanvas);
         }
     } catch (error) {
         console.error(error);
-        res.json({ error: 'An error occurred while updating the canvas.' });
+        res.status(500).json({ error: 'An error occurred while updating the canvas.' });
     }
 }
 
@@ -55,10 +55,10 @@ exports.deleteCanvas = async function (req, res) {
     try {
         const { canvasID } = req.body;
         const deletedCanvas = await mongoDAL.deleteCanvas(canvasID);
-        res.json(deletedCanvas);
+        res.status(200).json(deletedCanvas);
     } catch (error) {
         console.error(error);
-        res.json({ error: 'An error occurred while deleting the canvas.' });
+        res.status(500).json({ error: 'An error occurred while deleting the canvas.' });
     }
 }
 
@@ -66,10 +66,10 @@ exports.getCanvasById = async function (req, res) {
     try {
         const { canvasID} = req.body;
         const canvas = await mongoDAL.getCanvasById(canvasID);
-        res.json(canvas);
+        res.status(200).json(canvas);
     } catch (error) {
         console.error(error);
-        res.json({ error: 'An error occurred while getting the canvas.' });
+        res.status(500).json({ error: 'An error occurred while getting the canvas.' });
     }
 }
 
@@ -77,10 +77,10 @@ exports.getCanvasByUserId = async function (req, res) {
     try {
         const { userID} = req.body;
         const canvas = await mongoDAL.getCanvasByUserId(userID);
-        res.json(canvas);
+        res.status(200).json(canvas);
     } catch (error) {
         console.error(error);
-        res.json({ error: 'An error occurred while getting the canvas.' });
+        res.status(500).json({ error: 'An error occurred while getting the canvas.' });
     }
 }
 
