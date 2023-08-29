@@ -18,7 +18,7 @@ router.post("/update/:id", (req, res) => {
     return patternController.updatePattern(req, req, res);
 });
 
-router.post("/delete/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
     return patternController.deletePattern(req, res);
 });
 

@@ -20,7 +20,7 @@ router.post("/update/:id", (req, res) => {
     return canvasController.updateCanvas(req, req, res);
 });
 
-router.post("/delete/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
     return canvasController.deleteCanvas(req, res);
 });
 
