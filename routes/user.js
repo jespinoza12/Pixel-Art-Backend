@@ -19,7 +19,7 @@ router.get('/currentUser', async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-    let results = await userController.createUser(req.body);
+    let results = await userController.register(req.body);
     res.send(results);
 });
 
