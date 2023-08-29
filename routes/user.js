@@ -14,9 +14,13 @@ router.get('/:id', async (req, res) => {
     res.send(results);    
 });
 
+router.get('/currentUser', async (req, res) => {
+    res.send(req.session.user);
+});
+
 router.post("/register", async (req, res) => {
     let results = await userController.createUser(req.body);
-    return results;
+    res.send(results);
 });
 
 router.post("/login", async (req, res) => {
@@ -35,12 +39,12 @@ router.post("/login", async (req, res) => {
 
 router.post("/update/:id", async  (req, res) => {
     let results = await userController.updateUser(req.user.id, req.body);
-    return results;
+    res.send(results);
 });
 
 router.post("/delete/:id", async  (req, res) => {
     let results = await userController.deleteUser(req.params.id);
-    return results;
+    res.send(results);
 });
 
 router.post("/logout", (req, res) => {
