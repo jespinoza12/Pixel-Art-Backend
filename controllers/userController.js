@@ -1,7 +1,7 @@
 const mongoDAL = require('../data/mongoDAL');
 const bcrypt = require('bcrypt')
 
-exports.register = async function (err, req, res, next) {
+exports.register = async function (req, res) {
     try {
         const { username, email, password, passwordConfirm } = req.body;
         const user = await mongoDAL.getUserByEmail(req.body.email);
