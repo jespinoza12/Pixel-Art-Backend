@@ -30,6 +30,7 @@ const userSchema = new mongoose.Schema({
 });
 
 const canvasSchema = new mongoose.Schema({
+    name: String,
     pallet: String,
     userID: String,
     size: {
@@ -74,6 +75,24 @@ exports.getAllUsers = async function (){
         const users = await User.find({});
         console.log(users);
         return users;
+    } catch (error) {
+        throw error;
+    }
+}
+
+exports.getCanvasByUserId = async function (userId) {
+    try {
+        const canvas = await Canvas.find({ userID: userId });
+        return canvas;
+    } catch (error) {
+        throw error;
+    }
+}
+
+exports.getPatternByCanvasId = async function (canvasId) {
+    try {
+        const pattern = await Pattern.find({ canvasID: canvasId });
+        return pattern;
     } catch (error) {
         throw error;
     }

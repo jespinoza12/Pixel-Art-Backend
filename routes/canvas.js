@@ -7,6 +7,10 @@ router.get('/:id', (req, res) => {
     return canvasController.getCanvasById(req.params.id);
 });
 
+router.get('/user/:id', (req, res) => {
+    return canvasController.getCanvasByUserId(req.params.id);
+});
+
 router.post("/create", (req, res) => {
     return canvasController.createCanvas(req.body);
 });
