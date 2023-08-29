@@ -57,9 +57,11 @@ exports.login = async function (req, res) {
                     };
                     res.status(200).json({user,  success: true });
                 } else {
+                    console.log(error)
                     res.status(401).json({ error: 'Invalid email or password.', success: false });
                 }
             } else {
+                console.log(error)
                 res.status(401).json({ error: 'Invalid email or password.', success: false });
             }
         }

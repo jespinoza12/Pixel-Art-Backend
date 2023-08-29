@@ -45,6 +45,7 @@ const canvasSchema = new mongoose.Schema({
 });
 
 const patternSchema = new mongoose.Schema({
+    name: String,
     pattern: String,
     format: String,
     canvasID: String,
