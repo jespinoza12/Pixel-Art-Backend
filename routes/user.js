@@ -15,7 +15,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.get('/currentUser', async (req, res) => {
-    return req.session.user;
+    return res.json(req.session.user);
 });
 
 router.post("/register", async (req, res) => {
