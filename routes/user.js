@@ -14,7 +14,7 @@ router.get('/:id', async (req, res) => {
     res.send(results);    
 });
 
-router.get('/currentUser', async (req, res) => {
+router.get('/user/current', async (req, res) => {
     console.log("Sessions",req.session.user)
     return res.json(req?.session?.user);
 });
