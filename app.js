@@ -2,9 +2,6 @@ const express = require('express');
 const session = require('express-session');
 require('dotenv').config();
 var cors = require('cors')
-app.use(cors())
-
-
 
 // Import routes from index.js
 const routes = require('./routes/index');
@@ -13,6 +10,7 @@ const canvasRoutes = require('./routes/canvas');
 const patternRoutes = require('./routes/pattern');
 
 const app = express();
+app.use(cors())
 
 app.use(session({
     secret: process.env.SECRET,
