@@ -3,9 +3,9 @@ const mongoDAL = require('../data/mongoDAL');
 
 exports.createPattern = async function (req, res) {
     try {
-        const { name, pattern, format, canvasId } = req.body;
+        const { name, pattern, format, userID } = req.body;
 
-        if (pattern == null || format == null || canvasId == null || name == null) {
+        if (pattern == null || format == null || name == null || userID == null) {
             res.status(400).json({ error: 'Missing required information.' });
             return;
         }else {
@@ -13,7 +13,7 @@ exports.createPattern = async function (req, res) {
                 name: name,
                 pattern: pattern,
                 format: format,
-                canvasId: canvasId,
+                userID: userID,
             };
             const createdPattern = await mongoDAL.createPattern(patternData);
             res.status(201).json(createdPattern);
