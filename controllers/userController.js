@@ -23,7 +23,7 @@ exports.register = async function (req, res) {
                         email: email,
                         password: hashedPassword,
                     };
-                    const createdUser = await mongoDAL.createUser(userData);
+                    const createdUser = await mongoDAL.createUser(userData.username, userData.email, userData._id);
                     res.status(201).json(createdUser);
                 }
             }
@@ -50,12 +50,12 @@ exports.login = async function (req, res) {
             if (user) {
                 const isPasswordCorrect = await bcrypt.compare(password, user.password);
                 if (isPasswordCorrect) {
-                    res.status(200).json(user);
+                    res.status(200).json(user, { success: true });
                 } else {
-                    res.status(401).json({ error: 'Invalid email or password.' });
+                    res.status(401).json({ error: 'Invalid email or password.', success: false });
                 }
             } else {
-                res.status(401).json({ error: 'Invalid email or password.' });
+                res.status(401).json({ error: 'Invalid email or password.', success: false });
             }
         }
     } catch (error) {

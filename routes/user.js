@@ -25,7 +25,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
     let results = await userController.login(req, res);
-    if (!results.success) {
+    if (!results?.success) {
         req.session.user = {
             id: results.data._id,
             username: results.data.username,
