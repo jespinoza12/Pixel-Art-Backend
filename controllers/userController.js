@@ -41,16 +41,24 @@ exports.getUsers = async function (req, res) {
 
 exports.login = async function (req, res) {
     try {
+        console.log(req.body)
         const { email, password } = req.body;
         if (!email || !password) {
             res.status(400).json({ error: 'Please enter all required fields.' });
             return;
         }else {
             const user = await mongoDAL.getUserByEmail(email);
+            console.log(user)
             if (user) {
-                const isPasswordCorrect = await bcrypt.compare(password, user.password);
+                const isPasswordCorrect = bcrypt.compareSync(password, user.password);
+                console.log(user,isPasswordCorrect)
                 if (isPasswordCorrect) {
-                    res.status(200).json(user, { success: true });
+                    req.session.user = {
+                        id: user._id,
+                        username: user.username,
+                        email: user.email
+                    };
+                    res.status(200).json({user,  success: true });
                 } else {
                     res.status(401).json({ error: 'Invalid email or password.', success: false });
                 }
