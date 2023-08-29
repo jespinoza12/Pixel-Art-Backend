@@ -6,12 +6,12 @@ const userController = require('../controllers/userController');
 
 router.get('/users', async (req, res) => {
     let results = await userController.getUsers();
-    return results;
+    res.send(results);
 });
 
 router.get('/:id', async (req, res) => {
     let results = await userController.getUserById(req.params.id);
-    return results;    
+    res.send(results);    
 });
 
 router.post("/register", async (req, res) => {

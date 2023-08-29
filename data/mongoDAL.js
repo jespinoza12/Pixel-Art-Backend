@@ -72,6 +72,7 @@ exports.createUser = async function (userData) {
 exports.getAllUsers = async function (){
     try {
         const users = await User.find({});
+        console.log(users);
         return users;
     } catch (error) {
         throw error;
@@ -113,7 +114,6 @@ exports.getUserByEmail = async function (email) {
         throw error;
     }    
 }
-
 
 //Canvas Operations
 exports.createCanvas = async function (canvasData) {
@@ -199,6 +199,7 @@ exports.getPatternById = async function (patternId) {
         throw error;
     }
 }
+
 exports.deletePattern = async function (patternId) {
     try {
         const deletedPattern = await Pattern.findByIdAndDelete(patternId);
@@ -206,11 +207,4 @@ exports.deletePattern = async function (patternId) {
     } catch (error) {
         throw error;
     }
-}
-
-
-module.exports = {
-    User: User,
-    Pattern: Pattern,
-    Canvas: Canvas,
 }

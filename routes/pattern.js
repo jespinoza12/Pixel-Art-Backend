@@ -18,7 +18,5 @@ router.post("/delete/:id", (req, res) => {
     return patternController.deletePattern(req.params.id);
 });
 
-
-
 module.exports = router;
 
