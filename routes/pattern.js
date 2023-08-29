@@ -7,7 +7,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.get('/user/:id', (req, res) => {
-    return patternController.getPatternByUserId(req.params.id, res);
+    return patternController.getPatternByUserId(req, res);
 });
 
 router.post("/create", (req, res) => {
