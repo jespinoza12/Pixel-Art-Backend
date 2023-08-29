@@ -49,7 +49,7 @@ const patternSchema = new mongoose.Schema({
     name: String,
     pattern: String,
     format: String,
-    canvasID: String,
+    userID: String,
     created: {
         type: Date,
         default: Date.now,
