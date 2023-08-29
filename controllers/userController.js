@@ -23,7 +23,7 @@ exports.register = async function (req, res) {
                         email: email,
                         password: hashedPassword,
                     };
-                    const createdUser = await mongoDAL.createUser(userData.username, userData.email, userData._id);
+                    const createdUser = await mongoDAL.createUser(userData);
                     res.status(201).json(createdUser);
                 }
             }

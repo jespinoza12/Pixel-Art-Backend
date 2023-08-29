@@ -31,8 +31,8 @@ exports.getPattern = async function (req, res) {
 
 exports.updatePattern = async function (req, res) {
     try {
-        const {name, pattern, format, canvasId, patternID } = req.body;
-        if (name == null || pattern == null || format == null || canvasId == null || patternID == null) {
+        const {name, pattern, format, canvasId, patternID, userID } = req.body;
+        if (name == null || pattern == null || format == null || canvasId == null || patternID == null || userID == null) {
             res.status(400).json({ error: 'Missing required information.' });
             return;
         }else {
@@ -41,6 +41,7 @@ exports.updatePattern = async function (req, res) {
             pattern: pattern,
             format: format,
             canvasId: canvasId,
+            userID: userID,
         };
         const updatedPattern = await mongoDAL.updatePattern(patternID, patternData);
         res.status(200).json(updatedPattern);
@@ -66,6 +67,17 @@ exports.getPatternById = async function (req, res) {
         const {patternID} = req.body;
         const patternById = await mongoDAL.getPatternById(patternID);
         res.status(200).json(patternById);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while getting the pattern.' });
+    }
+}
+
+exports.getPatternByUserId = async function (req, res) {
+    try {
+        const {userID} = req.body;
+        const patternByUserId = await mongoDAL.getPatternByUserId(userID);
+        res.status(200).json(patternByUserId);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while getting the pattern.' });

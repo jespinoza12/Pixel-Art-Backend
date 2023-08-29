@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { getCanvas } = require('../controllers/canvasController');
 require('dotenv').config();
 
 const uri = process.env.MONGODB_URI;
@@ -37,7 +38,7 @@ const canvasSchema = new mongoose.Schema({
         width: Number,
         height: Number,
     },
-    pixels: String,
+    pixels: [[String]],
     created: {
         type: Date,
         default: Date.now,
@@ -173,6 +174,15 @@ exports.getCanvasById = async function (canvasId) {
     }
 }
 
+exports.getCanvasByUserId = async function (userId) {
+    try {
+        const canvas = await Canvas.find({ userID: userId });
+        return canvas;
+    } catch (error) {
+        throw error;
+    }
+}
+
 exports.deleteCanvas = async function (canvasId) {
     try {
         const deletedCanvas = await Canvas.findByIdAndDelete(canvasId);
@@ -206,6 +216,15 @@ exports.updatePattern = async function (patternID, newData) {
     try {
         const updatedPattern = await Pattern.findByIdAndUpdate(patternID, newData, { new: true });
         return updatedPattern;
+    } catch (error) {
+        throw error;
+    }
+}
+
+exports.getPatternByUserId = async function (userID) {
+    try {
+        const pattern = await Pattern.find({ userID: userID });
+        return pattern;
     } catch (error) {
         throw error;
     }
