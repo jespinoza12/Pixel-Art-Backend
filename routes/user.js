@@ -24,26 +24,26 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-    let results = await userController.login(req.body);
+    let results = await userController.login(req, res);
     if (!results.success) {
         req.session.user = {
             id: results.data._id,
             username: results.data.username,
             email: results.data.email
         };
-        res.redirect("/");
+        return results;
     }else {
-        res.redirect("/login")
+        return results;
     }
 });
 
 router.post("/update/:id", async  (req, res) => {
-    let results = await userController.updateUser(req.user.id, req);
+    let results = await userController.updateUser(req.user.id, res);
     return results;
 });
 
 router.post("/delete/:id", async  (req, res) => {
-    let results = await userController.deleteUser(req.params.id);
+    let results = await userController.deleteUser(req.params.id, res);
     return results;
 });
 
