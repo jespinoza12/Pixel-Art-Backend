@@ -5,23 +5,27 @@ exports.register = async function (req, res) {
     try {
         const { username, email, password, passwordConfirm } = req.body;
         const user = await mongoDAL.getUserByEmail(req.body.email);
-
-        if (password !== passwordConfirm) {
-            res.status(400).json({ error: 'Passwords do not match.' });
+        if (!username || !email || !password || !passwordConfirm) {
+            res.status(400).json({ error: 'Please enter all required fields.' });
             return;
-        }else {
-            if (user) {
-                res.status(409).json({ error: 'User already Exisits.' });
+        } else {
+            if (password !== passwordConfirm) {
+                res.status(400).json({ error: 'Passwords do not match.' });
                 return;
             }else {
-                const hashedPassword = await bcrypt.hash(password, 10);
-                const userData = {
-                    username: username,
-                    email: email,
-                    password: hashedPassword,
-                };
-                const createdUser = await mongoDAL.createUser(userData);
-                res.status(201).json(createdUser);
+                if (user) {
+                    res.status(409).json({ error: 'User already Exisits.' });
+                    return;
+                }else {
+                    const hashedPassword = await bcrypt.hash(password, 10);
+                    const userData = {
+                        username: username,
+                        email: email,
+                        password: hashedPassword,
+                    };
+                    const createdUser = await mongoDAL.createUser(userData);
+                    res.status(201).json(createdUser);
+                }
             }
         }
     } catch (error) {
@@ -38,16 +42,21 @@ exports.getUsers = async function (req, res) {
 exports.login = async function (req, res) {
     try {
         const { email, password } = req.body;
-        const user = await mongoDAL.getUserByEmail(email);
-        if (user) {
-            const isPasswordCorrect = await bcrypt.compare(password, user.password);
-            if (isPasswordCorrect) {
-                res.status(200).json(user);
+        if (!email || !password) {
+            res.status(400).json({ error: 'Please enter all required fields.' });
+            return;
+        }else {
+            const user = await mongoDAL.getUserByEmail(email);
+            if (user) {
+                const isPasswordCorrect = await bcrypt.compare(password, user.password);
+                if (isPasswordCorrect) {
+                    res.status(200).json(user);
+                } else {
+                    res.status(401).json({ error: 'Invalid email or password.' });
+                }
             } else {
                 res.status(401).json({ error: 'Invalid email or password.' });
             }
-        } else {
-            res.status(401).json({ error: 'Invalid email or password.' });
         }
     } catch (error) {
         console.error(error);
@@ -57,15 +66,21 @@ exports.login = async function (req, res) {
 
 exports.updateUser = async function (req, res) {
     try {
+
         const { username, email, password, userID } = req.body;
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const userData = {
-            username: username,
-            email: email,
-            password: hashedPassword,
-        };
-        const updatedUser = await mongoDAL.updateUser(userID, userData);
-        res.status(200).json(updatedUser);
+        if (!username || !email || !password || !userID) {
+            res.status(400).json({ error: 'Please enter all required fields.' });
+            return;
+        }else {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const userData = {
+                username: username,
+                email: email,
+                password: hashedPassword,
+            };
+            const updatedUser = await mongoDAL.updateUser(userID, userData);
+            res.status(200).json(updatedUser);
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while updating the user.' });

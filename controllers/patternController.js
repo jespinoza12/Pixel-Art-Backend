@@ -4,13 +4,19 @@ const mongoDAL = require('../data/mongoDAL');
 exports.createPattern = async function (req, res) {
     try {
         const { pattern, format, canvasId } = req.body;
-        const patternData = {
-            pattern: pattern,
-            format: format,
-            canvasId: canvasId,
-        };
-        const createdPattern = await mongoDAL.createPattern(patternData);
-        res.status(201).json(createdPattern);
+
+        if (pattern == null || format == null || canvasId == null) {
+            res.status(400).json({ error: 'Missing required information.' });
+            return;
+        }else {
+            const patternData = {
+                pattern: pattern,
+                format: format,
+                canvasId: canvasId,
+            };
+            const createdPattern = await mongoDAL.createPattern(patternData);
+            res.status(201).json(createdPattern);
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while creating the pattern.' });
@@ -25,13 +31,18 @@ exports.getPattern = async function (req, res) {
 exports.updatePattern = async function (req, res) {
     try {
         const { pattern, format, canvasId, patternID } = req.body;
-        const patternData = {
-            pattern: pattern,
-            format: format,
-            canvasId: canvasId,
-        };
-        const updatedPattern = await mongoDAL.updatePattern(patternID, patternData);
-        res.status(200).json(updatedPattern);
+        if (pattern == null || format == null || canvasId == null || patternID == null) {
+            res.status(400).json({ error: 'Missing required information.' });
+            return;
+        }else {
+            const patternData = {
+                pattern: pattern,
+                format: format,
+                canvasId: canvasId,
+            };
+            const updatedPattern = await mongoDAL.updatePattern(patternID, patternData);
+            res.status(200).json(updatedPattern);
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while updating the pattern.' });
