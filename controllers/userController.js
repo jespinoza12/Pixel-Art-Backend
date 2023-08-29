@@ -4,14 +4,20 @@ const bcrypt = require('bcrypt')
 exports.register = async function (req, res) {
     try {
         const { username, email, password } = req.body;
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const userData = {
-            username: username,
-            email: email,
-            password: hashedPassword,
-        };
-        const createdUser = await mongoDAL.createUser(userData);
-        res.status(201).json(createdUser);
+        const user = await mongoDAL.getUserByEmail(req.body.email);
+        if (user) {
+            res.status(409).json({ error: 'User already Exisits.' });
+            return;
+        }else {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const userData = {
+                username: username,
+                email: email,
+                password: hashedPassword,
+            };
+            const createdUser = await mongoDAL.createUser(userData);
+            res.status(201).json(createdUser);
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while creating the user.' });
@@ -19,7 +25,7 @@ exports.register = async function (req, res) {
 };
 
 exports.getUsers = async function (req, res) {
-    return await mongoDAL.getUsers();
+    return await mongoDAL.getAllUsers();
 }
 
 exports.login = async function (req, res) {

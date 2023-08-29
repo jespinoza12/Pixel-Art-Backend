@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema({
 
 const canvasSchema = new mongoose.Schema({
     pallet: String,
+    userID: String,
     size: {
         width: Number,
         height: Number,
@@ -45,6 +46,7 @@ const canvasSchema = new mongoose.Schema({
 const patternSchema = new mongoose.Schema({
     pattern: String,
     format: String,
+    canvasID: String,
     created: {
         type: Date,
         default: Date.now,
@@ -55,11 +57,6 @@ const User = mongoose.model('User', userSchema);
 const Canvas = mongoose.model('Canvas', canvasSchema);
 const Pattern = mongoose.model('Pattern', patternSchema);
 
-module.exports = {
-    User: User,
-    Pattern: Pattern,
-    Canvas: Canvas,
-}
 
 //User Operations
 exports.createUser = async function (userData) {
@@ -72,7 +69,7 @@ exports.createUser = async function (userData) {
     }
 }
 
-exports.getUsers = async function (){
+exports.getAllUsers = async function (){
     try {
         const users = await User.find({});
         return users;
@@ -212,4 +209,8 @@ exports.deletePattern = async function (patternId) {
 }
 
 
-
+module.exports = {
+    User: User,
+    Pattern: Pattern,
+    Canvas: Canvas,
+}
