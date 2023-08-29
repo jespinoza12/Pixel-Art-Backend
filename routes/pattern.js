@@ -2,24 +2,20 @@ const express = require('express');
 const router = express.Router();
 const patternController = require('../controllers/patternController');
 
-
-// Define the route for the root URL
 router.get('/pattern/:id', (req, res) => {
-
-
+    return patternController.getPatternById(req.params.id);
 });
 
 router.post("/pattern/create", (req, res) => {
-
+    return patternController.createPattern(req.body);
 });
 
-
-router.post("/pattern/update", (req, res) => {
-
+router.post("/pattern/update/:id", (req, res) => {
+    return patternController.updatePattern(req.params.id, req.body);
 });
 
-router.post("/pattern/delete", (req, res) => {
-    
+router.post("/pattern/delete/:id", (req, res) => {
+    return patternController.deletePattern(req.params.id);
 });
 
 

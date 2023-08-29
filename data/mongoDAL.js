@@ -6,7 +6,6 @@ const uri = process.env.MONGODB_URI;
 mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true,
 });
 
 const db = mongoose.connection;
@@ -63,7 +62,7 @@ module.exports = {
 }
 
 //User Operations
-async function createUser(userData) {
+exports.createUser = async function (userData) {
     try {
         const newUser = new User(userData);
         const savedUser = await newUser.save();
@@ -73,7 +72,7 @@ async function createUser(userData) {
     }
 }
 
-async function getUsers() {
+exports.getUsers = async function (){
     try {
         const users = await User.find({});
         return users;
@@ -82,7 +81,7 @@ async function getUsers() {
     }
 }
 
-async function getUserById(userId) {
+exports.getUserById = async function (userId) {
     try {
         const user = await User.findById(userId);
         return user;
@@ -91,7 +90,7 @@ async function getUserById(userId) {
     }
 }
 
-async function updateUser(userId, newData) {
+exports.updateUser = async function (userId, newData) {
     try {
         const updatedUser = await User.findByIdAndUpdate(userId, newData, { new: true });
         return updatedUser;
@@ -100,7 +99,7 @@ async function updateUser(userId, newData) {
     }
 }
 
-async function deleteUser(userId) {
+exports.deleteUser = async function (userId) {
     try {
         const deletedUser = await User.findByIdAndDelete(userId);
         return deletedUser;
@@ -109,7 +108,7 @@ async function deleteUser(userId) {
     }
 }
 
-async function getUserByEmail(email) {
+exports.getUserByEmail = async function (email) {
     try {
         const user = await User.findOne({ email: email });
         return user;
@@ -120,7 +119,7 @@ async function getUserByEmail(email) {
 
 
 //Canvas Operations
-async function createCanvas(canvasData) {
+exports.createCanvas = async function (canvasData) {
     try {
         const newCanvas = new Canvas(canvasData);
         const savedCanvas = await newCanvas.save();
@@ -130,7 +129,7 @@ async function createCanvas(canvasData) {
     }
 }
 
-async function getCanvas() {
+exports.getCanvas = async function () {
     try {
         const canvas = await Canvas.find({});
         return canvas;
@@ -139,7 +138,7 @@ async function getCanvas() {
     }
 }
 
-async function updateCanvas(canvasId, newData) {
+exports.updateCanvas = async function (canvasId, newData) {
     try {
         const updatedCanvas = await Canvas.findByIdAndUpdate(canvasId, newData, { new: true });
         return updateCanvas;
@@ -148,7 +147,7 @@ async function updateCanvas(canvasId, newData) {
     }
 }
 
-async function getCanvasById(canvasId) {
+exports.getCanvasById = async function (canvasId) {
     try {
         const canvas = await Canvas.findById(canvasId);
         return canvas;
@@ -157,7 +156,7 @@ async function getCanvasById(canvasId) {
     }
 }
 
-async function deleteCanvas(canvasId) {
+exports.deleteCanvas = async function (canvasId) {
     try {
         const deletedCanvas = await Canvas.findByIdAndDelete(canvasId);
         return deletedCanvas;
@@ -167,7 +166,7 @@ async function deleteCanvas(canvasId) {
 }
 
 //Pattern Operations
-async function createPattern(patternData) {
+exports.createPattern = async function (patternData) {
     try {
         const newPattern = new Pattern(patternData);
         const savedPattern = await newPattern.save();
@@ -177,7 +176,7 @@ async function createPattern(patternData) {
     }
 }
 
-async function getPattern() {
+exports.getPattern = async function () {
     try {
         const pattern = await Pattern.find({});
         return pattern;
@@ -186,7 +185,7 @@ async function getPattern() {
     }
 }
 
-async function updatePattern(patternID, newData) {
+exports.updatePattern = async function (patternID, newData) {
     try {
         const updatedPattern = await Pattern.findByIdAndUpdate(patternID, newData, { new: true });
         return updatedPattern;
@@ -195,7 +194,7 @@ async function updatePattern(patternID, newData) {
     }
 }
 
-async function getPatternById(patternId) {
+exports.getPatternById = async function (patternId) {
     try {
         const pattern = await Pattern.findById(patternId);
         return pattern;
@@ -203,8 +202,7 @@ async function getPatternById(patternId) {
         throw error;
     }
 }
-
-async function deletePattern(patternId) {
+exports.deletePattern = async function (patternId) {
     try {
         const deletedPattern = await Pattern.findByIdAndDelete(patternId);
         return deletedPattern;

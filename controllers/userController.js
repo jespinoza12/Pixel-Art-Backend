@@ -19,8 +19,7 @@ exports.register = async function (req, res) {
 };
 
 exports.getUsers = async function (req, res) {
-    let results = await mongoDAL.getUsers();
-    return results;
+    return await mongoDAL.getUsers();
 }
 
 exports.login = async function (req, res) {
